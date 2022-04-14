@@ -11,6 +11,10 @@
   margin-top: 12px;
 }
 
+.resetPasswordBtn {
+  cursor: pointer;
+}
+
 @media only screen and (max-width: 576px) {
   .formContainer {
     width: 300px;

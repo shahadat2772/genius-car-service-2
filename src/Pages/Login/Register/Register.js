@@ -10,38 +10,35 @@ import SocialLogin from "../SocialLogin/SocialLogin";
 import Loading from "../../Shared/Loading/Loading";
 
 const Register = () => {
-  const [createUserWithEmailAndPassword, user, loading, error] =
-    useCreateUserWithEmailAndPassword(auth, { sendEmailVerification: true });
-
-  const [updateProfile, updating, updateError] = useUpdateProfile(auth);
-
-  if (updating || loading) {
-    <Loading></Loading>;
-  }
-
-  const [currentUser] = useAuthState(auth);
-
-  const [agree, setAgree] = useState(false);
-  const emailRef = useRef("");
-  const passwordRef = useRef("");
-  const nameRef = useRef("");
-
+  // Navigate
   const navigate = useNavigate();
 
-  if (currentUser) {
-    console.log("user", currentUser);
-  }
+  // User creator hook
+  const [createUserWithEmailAndPassword, user, loading, userCreateError] =
+    useCreateUserWithEmailAndPassword(auth, { sendEmailVerification: true });
+  // Users Profile update hook
+  const [updateProfile, updating, updateProfileError] = useUpdateProfile(auth);
+
+  // Getting value from the inputs
+  const nameRef = useRef("");
+  const emailRef = useRef("");
+  const passwordRef = useRef("");
+  const [accept, setAccept] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const name = nameRef.current.value;
+    const displayName = nameRef.current.value;
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
-    // const agree = event.target.terms.checked;
 
     await createUserWithEmailAndPassword(email, password);
-    await updateProfile({ displayName: name });
-    console.log("Updated profile");
+    await updateProfile({ displayName });
+
+    if (loading || updating) {
+      <Loading></Loading>;
+    }
+
+    console.log("Name updated");
     navigate(`/home`);
   };
 
@@ -68,22 +65,21 @@ const Register = () => {
             />
           </div>
           <div
-            className={`d-flex align-items-center mt-1 ${
-              agree || "text-danger"
+            className={`input-fields d-flex align-items-center mt-1 ${
+              accept || "text-danger"
             }`}
           >
             <input
+              className="mt-1 me-1"
               type="checkbox"
-              name="terms"
-              id="checkbox"
-              className={`mt-1 me-1`}
-              onClick={() => setAgree(!agree)}
+              name="accept"
+              id="accept"
+              onClick={() => setAccept(!accept)}
             />
             <label htmlFor="checkbox">Accept terms and conditions</label>
           </div>
-
           <input
-            disabled={!agree}
+            disabled={accept ? false : true}
             className="submitBtn"
             type="submit"
             value="Register"
