@@ -1,0 +1,28 @@
+.service-container {
+  width: 20rem;
+  border: 1px solid gray;
+  padding: 10px;
+  margin: 0px auto;
+}
+
+.service-container img {
+  width: 100%;
+}
+
+@media only screen and (max-width: 576px) {
+  .service-container {
+    width: 18rem;
+  }
+}
+
+@media only screen and (min-width: 578px) and (max-width: 992px) {
+  .service-container {
+    width: 18rem;
+  }
+}
+
+@media only screen and (min-width: 994px) and (max-width: 1200px) {
+  .service-container {
+    width: 18rem;
+  }
+}
